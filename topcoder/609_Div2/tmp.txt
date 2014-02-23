@@ -1,0 +1,40 @@
+class VocaloidsAndSongs{
+        public:
+    long long int cnt(int base, int num){
+        long long int val = base;
+        if(!num)
+        	return 1;
+        if(base == num)
+        	return 1;
+        for( int i = 1; i != num; i++){
+            val *= (base - i);
+            val /= i;
+            }
+           val /=num;
+           //val %= 1000000007;
+        //for(int i = 1; i <= num; i++)
+            //val /= i;
+        return val;
+    }
+
+    int count(int S, int gumi, int ia, int mayu){
+        if((gumi+ia+mayu)<S)
+            return 0;
+        int max = (gumi+ia+mayu)-S;
+        max = max<gumi?max:gumi;
+        max = max<ia?max:ia;
+        int min = ia+gumi - S;
+        min = min > 0? min:0;
+        long long int res = cnt(S, gumi);
+        res %= 1000000007;
+        long long int temp = 0;
+        for( int i= min; i <= max; i++){
+            int must = S+i-gumi-ia;
+            temp += cnt(gumi, i) * cnt(S-gumi, ia-i)*cnt(S-must, mayu-must);
+           // temp = 1000000007;
+        }
+        temp %= 1000000007;
+        res *= temp;
+        return res%1000000007;
+    }   
+}; 
